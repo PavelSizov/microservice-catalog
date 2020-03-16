@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -27,7 +28,7 @@ public class AmazonClient {
         s3client = AmazonS3ClientBuilder.standard().withRegion(region).build();
     }
 
-
+    @Retryable
     public <T> T downloadFile(TypeReference<T> reference) throws JsonProcessingException {
         String catalogData = s3client.getObjectAsString(bucketName, catalogFileName);
         return new ObjectMapper().readValue(catalogData, reference);
