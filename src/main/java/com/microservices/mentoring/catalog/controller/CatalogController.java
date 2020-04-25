@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 @RestController()
 @RequestMapping("/catalog")
+@CrossOrigin
 public class CatalogController {
 
     @Autowired
